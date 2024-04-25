@@ -19,12 +19,8 @@
                 </li>
             </ul>
         </div>
-        <div class="login">
-            <ul class="nav-list">
-                <li>
-                    <router-link to="/login">Logout</router-link>
-                </li>
-            </ul>
+        <div class="logout">
+            <button @click="logout" >Logout</button>
         </div>
 
     </div>
@@ -32,8 +28,42 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { useAuthStore } from '@/stores/authStore'; // Import the Pinia store
+import { useRouter } from 'vue-router';
 export default {
-    name: 'Navbar'
+    name: 'Navbar',
+
+     methods: {
+        async logout() {
+        try {
+        const token = useAuthStore().getLoginToken();
+
+       const response = await axios.post(
+                    "http://localhost:8000/api/logout", 
+                    null, // Set the request body to null since logout typically doesn't require data
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
+
+
+        // Clear Store Token
+        useAuthStore().clearLoginToken();
+
+        // Redirect to product page
+        this.$router.push({ name: 'Home' });
+
+        console.warn('result', response);
+      } catch (error) {
+        console.error('Error In Logout:', error);
+      }
+    }
+    }
+
+
 }
 </script>
 

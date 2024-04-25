@@ -31,8 +31,8 @@ export default {
         });
 
         // Store token in Pinia store
-        const authStore = useAuthStore();
-        authStore.setToken(response.data.token);
+        useAuthStore().setLoginToken(response.data.token);
+        useAuthStore().setUser(response.data.data.name);
 
         // Redirect to the dashboard
         this.$router.push({ name: 'UserDashboard' });
@@ -40,7 +40,6 @@ export default {
         console.warn('result', response);
       } catch (error) {
         console.error('Login failed:', error);
-        // Handle login failure (show error message, etc.)
       }
     }
   }

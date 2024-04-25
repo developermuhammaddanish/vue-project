@@ -21,7 +21,7 @@ export default {
   methods: {
     async verifyEmail() {
       try {
-        const token = useAuthStore().getToken();
+        const token = useAuthStore().getEmailToken();
 
         const response = await axios.post("http://localhost:8000/api/verify-email", {
           otp: this.otp,
@@ -30,6 +30,9 @@ export default {
             Authorization: `Bearer ${token}`
           }
         });
+        
+        //Clear Store Token
+        useAuthStore().clearEmailToken();
 
         // Redirect to product page
         this.$router.push({ name: 'Login' });

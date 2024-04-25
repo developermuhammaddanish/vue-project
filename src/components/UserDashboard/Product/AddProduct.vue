@@ -13,9 +13,8 @@
 <script>
 import axios from 'axios';
 import Navbar from '@/components/UserDashboard/Navbar.vue';
-import {
-    useRouter
-} from 'vue-router';
+import { useAuthStore } from '@/stores/authStore'; // Import the Pinia store
+import { useRouter } from 'vue-router';
 
 export default {
     name: 'Form',
@@ -32,23 +31,31 @@ export default {
     },
 
     methods: {
+
         async addData() {
-            let result = await axios.post("http://localhost:8000/api/add_product", {
-                product_name: this.product_name,
-                product_price: this.product_price,
-                category_id: this.category_id
-            });
 
-            console.warn('Add Product Api', result);
+                const token = useAuthStore().getLoginToken();
 
-            // Redirect to product page
-            this.$router.push({
-                name: 'Product'
-            });
-        }
+                const response = await axios.post("http://localhost:8000/api/add_product",
+                    {
+                        product_name: this.product_name,
+                        product_price: this.product_price,
+                        category_id: this.category_id
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
+                    // Redirect to product page
+                    this.$router.push({ name: 'ShowProduct' });
+                    console.warn('Product added successfully', response);
+        }   
     }
 }
 </script>
+
 
 <style scoped>
 .add-product-form {

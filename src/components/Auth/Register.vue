@@ -32,7 +32,7 @@ export default {
         });
 
         // Store token in Pinia store
-        useAuthStore().setToken(response.data.token);
+        useAuthStore().setEmailToken(response.data.token);
 
         // Redirect to product page
         this.$router.push({ name: 'VerifyEmail' });

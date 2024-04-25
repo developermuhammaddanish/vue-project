@@ -7,6 +7,8 @@ import Login from './components/Auth/Login.vue';
 import UserDashboard from './components/UserDashboard/UserDashboard.vue';
 import ShowProduct from './components/UserDashboard/Product/ShowProduct.vue';
 import AddProduct from './components/UserDashboard/Product/AddProduct.vue';
+import UpdateProduct from './components/UserDashboard/Product/UpdateProduct.vue';
+
 
 import { useAuthStore } from '@/stores/authStore';
 
@@ -33,6 +35,12 @@ const router = createRouter({
             name: 'AddProduct',
             path: '/addproduct',
             component: AddProduct,
+            meta: { requiresAuth: true } // Protected route
+        },
+        {
+            name: 'UpdateProduct',
+            path: '/updateproduct',
+            component: UpdateProduct,
             meta: { requiresAuth: true } // Protected route
         },
         {
@@ -66,9 +74,9 @@ router.beforeEach((to, from, next) => {
     
     if (to.meta.requiresAuth && !isAuthenticated) {
         next({ name: 'Login' });
-    } else if (isAuthenticated && to.name !== 'UserDashboard' && to.name !== 'ShowProduct' && to.name !== 'AddProduct') {
+    } else if (isAuthenticated && to.name !== 'UserDashboard' && to.name !== 'ShowProduct' && to.name !== 'AddProduct' && to.name !== 'UpdateProduct') {
         next({ name: 'UserDashboard' });
-    } else if (isAuthenticated && (to.name === 'ShowProduct' || to.name === 'AddProduct')) {
+    } else if (isAuthenticated && (to.name === 'ShowProduct' || to.name === 'AddProduct' || to.name === 'UpdateProduct')) {
         next();
     } else {
         next();

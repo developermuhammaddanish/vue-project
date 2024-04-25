@@ -2,11 +2,11 @@
 <Navbar />
 
 <div class="add-product-form">
-    <h1>Add Product</h1>
+    <h1>Update Product</h1>
     <input type="text" v-model="product_name" placeholder="Product Name"><br><br>
     <input type="text" v-model="product_price" placeholder="Product Price"><br><br>
     <input type="text" v-model="category_id" placeholder="Category Id"><br><br>
-    <button @click="addData">Submit</button>
+    <button @click="updateProduct()">Submit</button>
 </div>
 </template>
 
@@ -21,21 +21,22 @@ export default {
     components: {
         Navbar
     },
+
     data() {
         return {
-            product_name: '',
-            product_price: '',
-            category_id: '',
+           product_name: this.$route.params.productData.product_name,
+           product_price: this.$route.params.productData.product_price,
+           category_id: this.$route.params.productData.category_id
         }
     },
 
     methods: {
 
-        async addData() {
+        async updateProduct(id) {
 
                 const token = useAuthStore().getLoginToken();
 
-                const response = await axios.post("http://localhost:8000/api/add_product",
+                const response = await axios.post(`http://localhost:8000/api/update_product/${id}`,
                     {
                         product_name: this.product_name,
                         product_price: this.product_price,
@@ -49,7 +50,7 @@ export default {
                 );
                     // Redirect to product page
                     this.$router.push({ name: 'ShowProduct' });
-                    console.warn('Product added successfully', response);
+                    console.warn('Product Update successfully', response);
         }   
     }
 }

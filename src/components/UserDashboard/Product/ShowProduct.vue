@@ -12,6 +12,7 @@
             <th>Product Price</th>
             <th>Product category</th>
             <th>Delete Product</th>
+            <th>Update Product</th>
         </tr>
     </thead>
     <tbody>
@@ -31,6 +32,11 @@
             <td>
                 <button @click="deleteProduct(item.id)">Delete</button>
             </td>
+            <td>
+                <button @click="updateProduct(item.id)">
+                    Update
+                </button>
+            </td>
         </tr>
     </tbody>
 </table>
@@ -40,7 +46,9 @@
 
 <script>
 import Navbar from '@/components/UserDashboard/Navbar.vue';
-import { useAuthStore } from '@/stores/authStore'; // Import the Pinia store
+import {
+    useAuthStore
+} from '@/stores/authStore'; // Import the Pinia store
 import axios from "axios";
 
 export default {
@@ -49,57 +57,80 @@ export default {
     components: {
         Navbar,
     },
-    
+
     data() {
         return {
             list: [],
         };
     },
 
-   methods:{
-    async deleteProduct(id) {
-        try {
-            const token = useAuthStore().getLoginToken();
+    methods: {
+        async deleteProduct(id) {
+            try {
+                const token = useAuthStore().getLoginToken();
 
-            const response = await axios.delete(`http://localhost:8000/api/delete_product/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-             // Remove the deleted product from the list
-            this.list = this.list.filter(item => item.id !== id);
-
-            // Redirect to product page
-            this.$router.push({ name: 'ShowProduct' });
-            console.warn('Product deleted successfully', response);
-        } catch (error) {
-            console.error('Error deleting product:', error);
-        }
-    }   
-},
-
-
-    async mounted() {
-        try {
-            const token = useAuthStore().getLoginToken();
-
-            const response = await axios.get(
-                "http://localhost:8000/api/show_product",
-                {
+                const response = await axios.delete(`http://localhost:8000/api/delete_product/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
-                }
-            );
+                });
 
-            this.list = response.data.data; // Assign response.data to this.list
-            console.warn('result', response);
-        } catch (error) {
-            console.error('Error In Fetching Product Data:', error);
+                // Remove the deleted product from the list
+                this.list = this.list.filter(item => item.id !== id);
+
+                // Redirect to product page
+                this.$router.push({
+                    name: 'ShowProduct'
+                });
+                console.warn('Product deleted successfully', response);
+            } catch (error) {
+                console.error('Error deleting product:', error);
+            }
+        },
+
+        async updateProduct(id) {
+            try {
+                const token = useAuthStore().getLoginToken();
+
+                const response = await axios.get(`http://localhost:8000/api/fatch_product/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
+                // Redirect to update page
+                this.$router.push({
+                    name: 'UpdateProduct',
+                    params: {
+                        productData: response.data.data // Pass fetched product data as props
+                    }
+                });
+
+                console.warn('Product Fetched successfully', response);
+            } catch (error) {
+                console.error('Error fetching product:', error);
+            }
+        },
+    },
+        async mounted() {
+            try {
+                const token = useAuthStore().getLoginToken();
+
+                const response = await axios.get(
+                    "http://localhost:8000/api/show_product", {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
+
+                this.list = response.data.data; // Assign response.data to this.list
+                console.warn('result', response);
+            } catch (error) {
+                console.error('Error In Fetching Product Data:', error);
+            }
         }
     }
-}
 </script>
 
 <style>

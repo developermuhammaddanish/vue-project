@@ -50,7 +50,8 @@ import Navbar from '@/components/UserDashboard/Navbar.vue';
 import {
     useAuthStore
 } from '@/stores/authStore'; // Import the Pinia store
-import axios from "axios";
+// import axios from "axios";
+import axios from '@/API/axios';
 
 export default {
     name: 'Product',
@@ -71,7 +72,7 @@ export default {
             const token = useAuthStore().getLoginToken();
 
             const response = await axios.get(
-                "http://localhost:8000/api/show_product", {
+                "/show_product", {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -85,12 +86,7 @@ export default {
             console.error('Error In Fetching Product Data:', error);
         }
     },
-    
-    computed:{
-        search(){
 
-        }
-    },
     methods: {
         async search() {
             try {

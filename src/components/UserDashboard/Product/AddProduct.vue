@@ -5,9 +5,15 @@
     <h1>Add Product</h1>
     <input type="text" v-model="product_name" placeholder="Product Name"><br><br>
     <input type="text" v-model="product_price" placeholder="Product Price"><br><br>
-    <input type="text" v-model="category_id" placeholder="Category Id"><br><br>
+    <select v-model="category_id" placeholder="Category">
+        <option value="" disabled selected>Select Category</option>
+        <option value="1">Food</option>
+        <option value="2">Electronic</option>
+        <option value="5">Beauty</option>
+    </select><br><br>
     <button @click="addData">Submit</button>
 </div>
+
 </template>
 
 <script>
@@ -56,39 +62,39 @@ export default {
 </script>
 
 
-<style scoped>
+<style>
 .add-product-form {
-    max-width: 400px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
 .add-product-form h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.add-product-form input[type="text"] {
-    width: 95%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.add-product-form input,
+.add-product-form select,
+.add-product-form button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .add-product-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
 }
 
 .add-product-form button:hover {
-    background-color: #0056b3;
+  background-color: #45a049;
 }
 </style>
+

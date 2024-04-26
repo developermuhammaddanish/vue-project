@@ -32,7 +32,7 @@ export default {
 
         // Store token in Pinia store
         useAuthStore().setLoginToken(response.data.token);
-        useAuthStore().setUser(response.data.data.name);
+        useAuthStore().setUser(response.data.user.name);
 
         // Redirect to the dashboard
         this.$router.push({ name: 'UserDashboard' });

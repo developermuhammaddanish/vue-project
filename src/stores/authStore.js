@@ -6,7 +6,7 @@ export const useAuthStore = defineStore({
     loginToken: localStorage.getItem('token') || null,
     isAuthenticated: !!localStorage.getItem('token'),
     emailToken: null,
-    user: null,
+    user: localStorage.getItem('user') || null,
   }),
   actions: {
     setEmailToken(token) {
@@ -19,6 +19,7 @@ export const useAuthStore = defineStore({
     },
     setUser(user) {
       this.user = user;
+      localStorage.setItem('user', user);
     },
     getEmailToken(){
       return this.emailToken;
@@ -26,7 +27,7 @@ export const useAuthStore = defineStore({
     getLoginToken(){
       return this.loginToken;
     },
-    getUse(){
+    getUser(){
       return this.user;
     },
     clearLoginToken() {
@@ -36,6 +37,10 @@ export const useAuthStore = defineStore({
     },
     clearEmailToken() {
       this.emailToken = null;
+    },
+    clearUser(){
+      this.user = null;
+      localStorage.removeItem('user');
     },
     isLoggedIn() {
       return !!this.loginToken;

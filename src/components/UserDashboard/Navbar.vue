@@ -17,12 +17,15 @@
                 <li>
                     <router-link to="/products">Products</router-link>
                 </li>
+                 <li>
+                    <router-link to="/categories">Categories</router-link>
+                </li>
             </ul>
         </div>
         <div class="logout">
+            <p>{{userName}}</p>
             <button @click="logout" >Logout</button>
         </div>
-
     </div>
 </nav>
 </template>
@@ -33,6 +36,26 @@ import { useAuthStore } from '@/stores/authStore'; // Import the Pinia store
 import { useRouter } from 'vue-router';
 export default {
     name: 'Navbar',
+
+     data() {
+        return {
+            userName: '',
+        }
+    },
+
+    async mounted() {
+        try {
+            const user = useAuthStore().getUser();
+            this.userName = user;
+            console.log('result', user);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    },
+
+    // props:{
+    //     data:String,
+    // },
 
      methods: {
         async logout() {
@@ -52,6 +75,7 @@ export default {
 
         // Clear Store Token
         useAuthStore().clearLoginToken();
+        useAuthStore().clearUser();
 
         // Redirect to product page
         this.$router.push({ name: 'Home' });
@@ -102,5 +126,11 @@ export default {
 
 .nav-list li a:hover {
     color: #ccc;
+}
+.logout{
+    display:flex;
+}
+.logout p{
+    margin-right: 10px;
 }
 </style>

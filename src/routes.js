@@ -1,19 +1,26 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import PageNotFound from './components/PageNotFound.vue';
-import Home from './components/Website/Home.vue';
+import Auth from './components/Auth.vue';
+import Home from './views/website/Home.vue';
 
-import Register from './components/Auth/Register.vue';
-import VerifyEmail from './components/Auth/VerifyEmail.vue';
-import Login from './components/Auth/Login.vue';
-import UserDashboard from './components/UserDashboard/UserDashboard.vue';
+//Auth
+import Register from './views/auth/Register.vue';
+import VerifyEmail from './views/auth/VerifyEmail.vue';
+import ForgotEmail from './views/auth/ForgotEmail.vue';
+import Login from './views/auth/Login.vue';
 
-import ShowProduct from './components/UserDashboard/Product/ShowProduct.vue';
-import AddProduct from './components/UserDashboard/Product/AddProduct.vue';
-import UpdateProduct from './components/UserDashboard/Product/UpdateProduct.vue';
+//userpanel
+import UserDashboard from './views/userpanel/UserDashboard.vue';
 
-import ShowCategories from './components/UserDashboard/Categories/ShowCategories.vue';
-import AddCategory from './components/UserDashboard/Categories/AddCategory.vue';
-import UpdateCategory from './components/UserDashboard/Categories/UpdateCategory.vue';
+//product
+import ShowProduct from './views/userpanel/products/ShowProduct.vue';
+import AddProduct from './views/userpanel/products/AddProduct.vue';
+import UpdateProduct from './views/userpanel/products/UpdateProduct.vue';
+
+//category
+import ShowCategories from './views/userpanel/categories/ShowCategories.vue';
+import AddCategory from './views/userpanel/categories/AddCategory.vue';
+import UpdateCategory from './views/userpanel/categories/UpdateCategory.vue';
 
 
 import { useAuthStore } from '@/stores/authStore';
@@ -42,12 +49,16 @@ const router = createRouter({
             component: VerifyEmail
         },
         {
+            name: 'ForgotEmail',
+            path: '/forgotemail',
+            component: ForgotEmail
+        },
+        {
             name: 'UserDashboard',
             path: '/userdashboard',
             component: UserDashboard,
             meta: { requiresAuth: true } // Protected route
         },
-
         {
             name: 'ShowProduct',
             path: '/products',
@@ -89,14 +100,21 @@ const router = createRouter({
             path: '/:pathMatch(.*)*',
             component: PageNotFound
         },
+        {
+            name: 'Auth',
+            path: '/auth',
+            component: Auth
+        },
     ]
 });
 
 
 // Navigation guard to check authentication status
 router.beforeEach((to, from, next) => {
+    
     const isAuthenticated = useAuthStore().isLoggedIn();
-    console.log(isAuthenticated);
+    // console.log(isAuthenticated);
+    
     if (to.meta.requiresAuth && !isAuthenticated) {
         next({ name: 'Login' });
     } else if (isAuthenticated 

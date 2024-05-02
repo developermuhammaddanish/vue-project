@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '@/API/axios';
 import Navbar from '@/components/UserDashboard/Navbar.vue';
 import { useAuthStore } from '@/stores/authStore'; // Import the Pinia store
 import { useRouter } from 'vue-router';
@@ -31,7 +31,7 @@ export default {
 
                 const token = useAuthStore().getLoginToken();
 
-                const response = await axios.post("http://localhost:8000/api/add_category",
+                const response = await axios.post("/add_category",
                     {
                         product_category: this.category_name,
                     },

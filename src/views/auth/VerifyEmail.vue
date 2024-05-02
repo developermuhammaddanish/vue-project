@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '@/API/axios';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/authStore';
 
@@ -23,7 +23,7 @@ export default {
       try {
         const token = useAuthStore().getEmailToken();
 
-        const response = await axios.post("http://localhost:8000/api/verify-email", {
+        const response = await axios.post("/verify-email", {
           otp: this.otp,
         }, {
           headers: {

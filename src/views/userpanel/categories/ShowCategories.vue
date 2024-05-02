@@ -39,8 +39,7 @@ import Navbar from '@/components/UserDashboard/Navbar.vue';
 import {
     useAuthStore
 } from '@/stores/authStore'; // Import the Pinia store
-import axios from "axios";
-
+import axios from '@/API/axios';
 export default {
     name: 'Category',
 
@@ -59,7 +58,7 @@ export default {
             try {
                 const token = useAuthStore().getLoginToken();
 
-                const response = await axios.delete(`http://localhost:8000/api/delete_category/${id}`, {
+                const response = await axios.delete(`/delete_category/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -83,7 +82,7 @@ export default {
             try {
                 const token = useAuthStore().getLoginToken();
 
-                const response = await axios.get(`http://localhost:8000/api/fatch_category/${id}`, {
+                const response = await axios.get(`/fatch_category/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -108,7 +107,7 @@ export default {
             const token = useAuthStore().getLoginToken();
 
             const response = await axios.get(
-                "http://localhost:8000/api/show_category", {
+                "/show_category", {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

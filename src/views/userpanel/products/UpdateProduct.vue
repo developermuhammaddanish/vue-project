@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '@/API/axios';
 import Navbar from '@/components/UserDashboard/Navbar.vue';
 import {
     useAuthStore
@@ -57,7 +57,7 @@ export default {
 
             const token = useAuthStore().getLoginToken();
 
-            const response = await axios.post(`http://localhost:8000/api/update_product/${id}`, {
+            const response = await axios.post(`/update_product/${id}`, {
                 product_name: this.product_name,
                 product_price: this.product_price,
                 category_id: this.category_id

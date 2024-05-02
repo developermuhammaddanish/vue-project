@@ -46,7 +46,7 @@ export default {
     async mounted() {
         try {
             const user = useAuthStore().getUser();
-            this.userName = user;
+            this.userName = user.name;
             console.log('result', user);
         } catch (error) {
             console.error('Error:', error);

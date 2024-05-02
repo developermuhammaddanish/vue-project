@@ -3,8 +3,10 @@
     <Navbar />
     <div class="button-container">
         <router-link to="/addproduct" class="btn">Add Product</router-link>
-        <input type="search" v-model="search_product" placeholder="Product Name" class="search-input">
-        <button @click="search" class="btn">Search</button>
+        <form @submit.prevent="search">
+            <input type="search" v-model="search_product" placeholder="Search Product" class="search-input">
+            <button type="submit" class="submit-btn"></button>
+        </form>
     </div>
 
     <table>
@@ -47,10 +49,7 @@
 
 <script>
 import Navbar from '@/components/UserDashboard/Navbar.vue';
-import {
-    useAuthStore
-} from '@/stores/authStore'; // Import the Pinia store
-// import axios from "axios";
+import { useAuthStore } from '@/stores/authStore'; // Import the Pinia store
 import axios from '@/API/axios';
 
 export default {
@@ -93,7 +92,7 @@ export default {
                 const token = useAuthStore().getLoginToken();
 
                 const response = await axios.get(
-                    "http://localhost:8000/api/search_product", {
+                    "/search_product", {
                         headers: {
                             Authorization: `Bearer ${token}`,
                         },
@@ -114,7 +113,7 @@ export default {
             try {
                 const token = useAuthStore().getLoginToken();
 
-                const response = await axios.delete(`http://localhost:8000/api/delete_product/${id}`, {
+                const response = await axios.delete(`/delete_product/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -138,7 +137,7 @@ export default {
             try {
                 const token = useAuthStore().getLoginToken();
 
-                const response = await axios.get(`http://localhost:8000/api/fatch_product/${id}`, {
+                const response = await axios.get(`/fatch_product/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -262,5 +261,11 @@ tr:nth-child(even) {
 .delete-button:hover {
     background-color: #d32f2f;
     /* Darker red background color on hover */
+}
+.submit-btn{
+    display:none;
+}
+form{
+    margin: 10px 0;
 }
 </style>

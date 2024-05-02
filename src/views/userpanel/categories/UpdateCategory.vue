@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '@/API/axios';
 import Navbar from '@/components/UserDashboard/Navbar.vue';
 import {
     useAuthStore
@@ -46,7 +46,7 @@ export default {
 
             const token = useAuthStore().getLoginToken();
 
-            const response = await axios.post(`http://localhost:8000/api/update_category/${id}`, {
+            const response = await axios.post(`/update_category/${id}`, {
                 product_category: this.category_name,
             }, {
                 headers: {
